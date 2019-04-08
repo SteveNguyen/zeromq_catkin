@@ -10,20 +10,27 @@ file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 ExternalProject_Add(zeromq_src
   URL https://github.com/zeromq/libzmq/releases/download/v4.2.2/zeromq-4.2.2.tar.gz
-  CONFIGURE_COMMAND cd ../zeromq_src && ./configure --with-pic --prefix=${CATKIN_DEVEL_PREFIX}
-  BUILD_COMMAND cd ../zeromq_src && make -j8
-  INSTALL_COMMAND cd ../zeromq_src && make install -j8
-)
+  CONFIGURE_COMMAND cd ${PROJECT_SOURCE_DIR}/zeromq/src && ./configure --with-pic --prefix=${CATKIN_DEVEL_PREFIX}
+  BUILD_COMMAND cd ${PROJECT_SOURCE_DIR}/zeromq/src && make -j8
+  INSTALL_COMMAND cd ${PROJECT_SOURCE_DIR}/zeromq/src && make install -j8
+  DOWNLOAD_DIR ${PROJECT_SOURCE_DIR}/zeromq
+  SOURCE_DIR ${PROJECT_SOURCE_DIR}/zeromq/src
+  TIMEOUT 3
+  URL_MD5 52499909b29604c1e47a86f1cb6a9115
+  )
 
 ExternalProject_Add(zeromq_cpp
-  GIT_REPOSITORY https://github.com/zeromq/cppzmq.git
-  GIT_TAG d9f0f016c07046742738c65e1eb84722ae32d7d4
+  URL https://github.com/zeromq/cppzmq/archive/v4.2.2.tar.gz
   DEPENDS zeromq_src
   UPDATE_COMMAND ""
   CONFIGURE_COMMAND ""
   BUILD_COMMAND ""
-  INSTALL_COMMAND mkdir -p ${CATKIN_DEVEL_PREFIX}/include/zeromq_cpp && cp ../zeromq_cpp/zmq.hpp ${CATKIN_DEVEL_PREFIX}/include/zeromq_cpp/zmq.hpp
-)
+  INSTALL_COMMAND mkdir -p ${CATKIN_DEVEL_PREFIX}/include/zeromq_cpp && cp ${PROJECT_SOURCE_DIR}/cppzmq/src/zmq.hpp ${CATKIN_DEVEL_PREFIX}/include/zeromq_cpp/zmq.hpp
+  DOWNLOAD_DIR ${PROJECT_SOURCE_DIR}/cppzmq
+  SOURCE_DIR ${PROJECT_SOURCE_DIR}/cppzmq/src
+  TIMEOUT 3
+  URL_MD5 bd809b47296e77fe9f192bd9dafd5cc3
+  )
 
 install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/zeromq_cpp
         DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION})
